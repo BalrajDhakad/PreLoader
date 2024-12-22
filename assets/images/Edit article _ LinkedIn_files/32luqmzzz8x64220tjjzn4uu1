@@ -1,0 +1,202 @@
+define("@glimmer/component/-private/base-component-manager",["exports","@babel/runtime/helpers/esm/defineProperty","@glimmer/component/-private/component"],(function(e,t,o){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=function(e,o,i){return class{static create(e){return new this(o(e))}constructor(o){(0,t.default)(this,"capabilities",i)
+e(this,o)}createComponent(e,t){0
+return new e(o(this),t.named)}getContext(e){return e}}}}))
+define("@glimmer/component/-private/component",["exports","@babel/runtime/helpers/esm/defineProperty","@glimmer/component/-private/owner","@glimmer/component/-private/destroyables"],(function(e,t,o,i){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=e.ARGS_SET=void 0
+e.ARGS_SET=void 0
+0
+e.default=class{constructor(e,i){(0,t.default)(this,"args",void 0)
+0
+this.args=i;(0,o.setOwner)(this,e)}get isDestroying(){return(0,i.isDestroying)(this)}get isDestroyed(){return(0,i.isDestroyed)(this)}willDestroy(){}}}))
+define("@glimmer/component/-private/destroyables",["exports","ember"],(function(e,t){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.isDestroying=e.isDestroyed=void 0
+e.isDestroying=t.default._isDestroying,e.isDestroyed=t.default._isDestroyed}))
+define("@glimmer/component/-private/ember-component-manager",["exports","ember","@ember/object","@ember/application","@ember/component","@ember/runloop","@glimmer/component/-private/base-component-manager","@glimmer/component/-private/destroyables"],(function(e,t,o,i,n,r,l,s){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+const{setDestroyed:a,setDestroying:d}=s,u=(0,n.capabilities)("3.13",{destructor:!0,asyncLifecycleCallbacks:!1,updateHook:!1}),c=t.default.destroy,p=t.default._registerDestructor
+class m extends((0,l.default)(i.setOwner,i.getOwner,u)){createComponent(e,t){const o=super.createComponent(e,t)
+p(o,(()=>{o.willDestroy()}))
+return o}destroyComponent(e){c(e)}}0
+e.default=m}))
+define("@glimmer/component/-private/owner",["exports","@ember/application"],(function(e,t){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+Object.defineProperty(e,"setOwner",{enumerable:!0,get:function(){return t.setOwner}})}))
+define("@glimmer/component/index",["exports","@ember/component","@glimmer/component/-private/ember-component-manager","@glimmer/component/-private/component"],(function(e,t,o,i){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+let n=i.default
+0;(0,t.setComponentManager)((e=>new o.default(e)),n)
+e.default=n}))
+define("embedded-designer/modifiers/embed-designer",["exports","@babel/runtime/helpers/esm/initializerDefineProperty","@babel/runtime/helpers/esm/defineProperty","@babel/runtime/helpers/esm/applyDecoratedDescriptor","@babel/runtime/helpers/esm/initializerWarningHelper","ember-modifier","@ember/test-waiters","ember-cli-pemberly-tracking/utils/uuid","@ember/service","designerapp-embedded"],(function(e,t,o,i,n,r,l,s,a,d){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+var u,c,p
+e.default=(u=(0,a.inject)("embedded-designer@embedded-designer-service"),c=class extends r.default{constructor(){super(...arguments);(0,t.default)(this,"embeddedDesignerService",p,this)}modify(e,t){let{clientId:o=(0,s.default)(),customUrl:i=null,onDesignerLoad:n,onDesignerLoadError:r,onDesignerDone:a,onDesignerCancel:u,sessionId:c=(0,s.default)(),startingDesignQuery:p="",documentData:m=null,imageDimensions:f=null,customScenario:g=null,enableMotionDesigns:b=!0,usePreProd:h=!1,additionalUserImages:v=null}=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{}
+const y={baseAppURL:i||(h?"https://designerapp.azurewebsites.net/":"https://designer.microsoft.com"),clientId:o,clientName:"LinkedIn",container:e,correlationId:(0,s.default)(),disableEmbeddedCSPEnforcement:!1,doneMessageOptions:d.DoneMessageOptions.ImageWithDocument,insertMode:!0,sessionId:c,forwardedConfig:m??{documentContent:"{}"},hideProactiveTemplates:!0,suggestionsConfig:{additionalUserImages:v,scenario:g??"Sharebox",enableMotionDesigns:b,startingDesignQuery:p,dimension:f??{width:1080,height:1080},preferredOutputFormatForMotionDesign:"gif"}}
+this.designerInstance=this.embeddedDesignerService.getNewDesignerApp(y);(0,l.waitForPromise)(this.designerInstance.initialize().then(n).catch((function(e){if(r)return r(e)
+throw e})))
+this.designerInstance.on("done",(e=>{const{media:t,mimeType:o,document:i}=e
+a({media:t,mimeType:o,document:i})
+this.designerInstance.destroy()}))
+this.designerInstance.on("cancel",(()=>{u()
+this.designerInstance.destroy()}))}},p=(0,i.default)(c.prototype,"embeddedDesignerService",[u],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),c)}))
+define("embedded-designer/services/embedded-designer-service",["exports","@babel/runtime/helpers/esm/defineProperty","@ember/service","designerapp-embedded"],(function(e,t,o,i){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+class n extends o.default{constructor(){super(...arguments);(0,t.default)(this,"EmbeddedDesignerApp",i.EmbeddedDesignerApp)}get Designer(){return this.EmbeddedDesignerApp}getNewDesignerApp(e){return new this.Designer(e)}getImageFromDesignerBuffer(e,t,o){const i=new Blob([e.buffer],{type:t}),n=new File([i],o,{type:t,lastModified:new Date})
+n.dataUri=URL.createObjectURL(n)
+return n}}e.default=n}))
+define("embedded-designer/template-registry",[],(function(){}))
+define("scaffold-formatted-text-editor/components/formatted-text-editor",["exports","@babel/runtime/helpers/esm/initializerDefineProperty","@babel/runtime/helpers/esm/defineProperty","@babel/runtime/helpers/esm/applyDecoratedDescriptor","@babel/runtime/helpers/esm/initializerWarningHelper","@ember/template-factory","@ember/component","@glimmer/component","@glimmer/tracking","@ember/object","@ember/debug","scaffold-formatted-text-editor/components/toolbar","scaffold-formatted-text-editor/components/link-modal","scaffold-formatted-text-editor/helpers/load-tiptap","scaffold-formatted-text-editor/modifiers/init-editor"],(function(e,t,o,i,n,r,l,s,a,d,u,c,p,m,f){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+var g,b,h,v,y,x,k,L,T,D,O
+e.default=(0,l.setComponentTemplate)((0,r.createTemplateFactory)({id:"JFAzVsvK",block:'[[[1,"\\n"],[44,[[28,[32,0],null,null]],[[[41,[30,1,["isResolved"]],[[[1,"        "],[10,0],[15,0,[29,["scaffold-formatted-text-editor\\n            ",[52,[30,2],"scaffold-formatted-text-editor--reverse"]]]],[12],[1,"\\n          "],[8,[32,1],null,[["@isOnBottom","@buttonGroups"],[[30,2],[30,0,["buttonGroups"]]]],null],[1,"\\n          "],[11,0],[16,0,[29,["scaffold-formatted-text-editor-container\\n              ",[30,0,["containerClasses"]]]]],[4,[32,2],null,[["content","placeholder","tiptap","didLoad","isFocused","featureCallbackMap","features","onUpdate"],[[30,3],[30,4],[30,1,["value"]],[30,0,["didLoad"]],[30,5],[30,0,["callbackMap"]],[30,6],[30,7]]]],[12],[1,"\\n          "],[13],[1,"\\n        "],[13],[1,"\\n        "],[8,[32,3],null,[["@isOpen","@onClose","@onCreateLink","@onDeleteLink","@text","@url"],[[30,0,["isLinkModalOpen"]],[30,0,["closeLinkModal"]],[30,0,["createLink"]],[30,0,["deleteLink"]],[30,0,["linkText"]],[30,0,["url"]]]],null],[1,"\\n"]],[]],[[[41,[30,1,["isPending"]],[[],[]],[[[41,[30,1,["isRejected"]],[[[1,"      "]],[]],null]],[]]]],[]]]],[1]]],[1,"  "]],["tiptap","@isToolbarOnBottom","@content","@placeholder","@isFocused","@features","@onUpdate"],false,["let","if"]]',moduleName:"scaffold-formatted-text-editor/components/formatted-text-editor.gts",scope:()=>[m.default,c.default,f.default,p.default],isStrictMode:!0}),(g=class extends s.default{constructor(){super(...arguments);(0,t.default)(this,"editor",b,this);(0,t.default)(this,"isLinkModalOpen",h,this);(0,t.default)(this,"linkText",v,this);(0,t.default)(this,"url",y,this);(0,t.default)(this,"isBoldActive",x,this);(0,t.default)(this,"isItalicActive",k,this);(0,t.default)(this,"isStrikethroughActive",L,this);(0,t.default)(this,"isBulletListActive",T,this);(0,t.default)(this,"isNumberListActive",D,this);(0,t.default)(this,"lastSelection",O,this);(0,o.default)(this,"callbackMap",{Bold:{keyboardShortcuts:{"Mod-b":this.toggleBoldContent,"Mod-B":this.toggleBoldContent}},Italic:{keyboardShortcuts:{"Mod-i":this.toggleItalicContent,"Mod-I":this.toggleItalicContent}},Strike:{keyboardShortcuts:{"Mod-Shift-x":this.toggleStrikethroughContent,"Mod-Shift-X":this.toggleStrikethroughContent}},OrderedList:{HTMLAttributes:{class:"scaffold-formatted-text-editor-input--number-list"}},BulletList:{HTMLAttributes:{class:"scaffold-formatted-text-editor-input--bullet-list"}},Link:{customPluginCallback:this.openLinkModal}})}didLoad(e){this.editor=e}toggleBoldContent(){this.isBoldActive=!this.isBoldActive
+return void 0!==this.editor&&this.editor.commands.toggleBold()}toggleItalicContent(){this.isItalicActive=!this.isItalicActive
+return void 0!==this.editor&&this.editor.commands.toggleItalic()}toggleStrikethroughContent(){var e
+this.isStrikethroughActive=!this.isStrikethroughActive
+return void 0!==this.editor&&(null===(e=this.editor)||void 0===e?void 0:e.commands.toggleStrike())}toggleBulletListContent(){var e
+this.isBulletListActive=!this.isBulletListActive
+return void 0!==this.editor&&(null===(e=this.editor)||void 0===e?void 0:e.commands.toggleBulletList())}toggleNumberListContent(){var e
+this.isNumberListActive=!this.isNumberListActive
+return void 0!==this.editor&&(null===(e=this.editor)||void 0===e?void 0:e.commands.toggleOrderedList())}createLink(e,t){if(this.lastSelection){const{from:i,to:n}=this.lastSelection,r=t||this.linkText
+if(r){var o
+null===(o=this.editor)||void 0===o||o.chain().setTextSelection({from:i,to:n}).setLink({href:e}).insertContent(r).unsetMark("link").focus().run()}this.lastSelection=void 0}else{var i
+null===(i=this.editor)||void 0===i||i.chain().focus().setLink({href:e}).insertContent(t||e).unsetMark("link").run()}this.closeLinkModal()}openLinkModal(){var e
+const t=null===(e=this.editor)||void 0===e?void 0:e.state.selection
+if(t&&!t.empty){var o,i
+this.lastSelection=t
+const{from:e,to:r}=t,l=null===(o=this.editor)||void 0===o?void 0:o.state.doc.textBetween(e,r,"\n")
+l&&(this.linkText=l)
+if(null!==(i=this.editor)&&void 0!==i&&i.getAttributes("link")){var n
+this.url=null===(n=this.editor)||void 0===n?void 0:n.getAttributes("link").href}}this.isLinkModalOpen=!0}closeLinkModal(){this.linkText=""
+this.url=""
+this.isLinkModalOpen=!1}deleteLink(){var e
+null===(e=this.editor)||void 0===e||e.chain().focus().unsetLink().run()
+this.closeLinkModal()}get buttonGroups(){const e=[[{icon:"text-bold",dataTestSelector:"Bold",label:"Bold",isToggled:this.isBoldActive,onToggle:this.toggleBoldContent},{icon:"text-italic",dataTestSelector:"Italic",label:"Italic",isToggled:this.isItalicActive,onToggle:this.toggleItalicContent},{icon:"text-strikethrough",dataTestSelector:"Strikethrough",label:"Strikethrough",isToggled:this.isStrikethroughActive,onToggle:this.toggleStrikethroughContent}],[{icon:"link",dataTestSelector:"Link",label:"Link",isToggled:this.isLinkModalOpen,onToggle:this.openLinkModal}],[{icon:"text-bulleted-list",dataTestSelector:"Bulleted List",label:"Bulleted List",isToggled:this.isBulletListActive,onToggle:this.toggleBulletListContent},{icon:"text-numbered-list",dataTestSelector:"Numbered List",label:"Numbered List",isToggled:this.isNumberListActive,onToggle:this.toggleNumberListContent}]]
+return void 0!==this.args.features?function(e,t){const o=new Map(e.flat().map((e=>[e.label,e])))
+return t.map((e=>e.map((e=>{let t
+t="BulletList"===e?o.get("Bulleted List"):"OrderedList"===e?o.get("Numbered List"):"Strike"===e?o.get("Strikethrough"):o.get(e)
+return t}))))}(e,this.args.features):e}get containerClasses(){const e=[]
+this.args.isToolbarOnBottom?e.push("scaffold-formatted-text-editor-container--toolbar-on-bottom"):e.push("scaffold-formatted-text-editor-container--toolbar-on-top")
+e.push(`scaffold-formatted-text-editor-container--rows-${this.args.rows?this.args.rows:1}`)
+return e.join(" ")}},b=(0,i.default)(g.prototype,"editor",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),h=(0,i.default)(g.prototype,"isLinkModalOpen",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),v=(0,i.default)(g.prototype,"linkText",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return""}}),y=(0,i.default)(g.prototype,"url",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return""}}),x=(0,i.default)(g.prototype,"isBoldActive",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),k=(0,i.default)(g.prototype,"isItalicActive",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),L=(0,i.default)(g.prototype,"isStrikethroughActive",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),T=(0,i.default)(g.prototype,"isBulletListActive",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),D=(0,i.default)(g.prototype,"isNumberListActive",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return!1}}),O=(0,i.default)(g.prototype,"lastSelection",[a.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),(0,i.default)(g.prototype,"didLoad",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"didLoad"),g.prototype),(0,i.default)(g.prototype,"toggleBoldContent",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"toggleBoldContent"),g.prototype),(0,i.default)(g.prototype,"toggleItalicContent",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"toggleItalicContent"),g.prototype),(0,i.default)(g.prototype,"toggleStrikethroughContent",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"toggleStrikethroughContent"),g.prototype),(0,i.default)(g.prototype,"toggleBulletListContent",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"toggleBulletListContent"),g.prototype),(0,i.default)(g.prototype,"toggleNumberListContent",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"toggleNumberListContent"),g.prototype),(0,i.default)(g.prototype,"createLink",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"createLink"),g.prototype),(0,i.default)(g.prototype,"openLinkModal",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"openLinkModal"),g.prototype),(0,i.default)(g.prototype,"closeLinkModal",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"closeLinkModal"),g.prototype),(0,i.default)(g.prototype,"deleteLink",[d.action],Object.getOwnPropertyDescriptor(g.prototype,"deleteLink"),g.prototype),g))}))
+define("scaffold-formatted-text-editor/components/link-modal",["exports","@babel/runtime/helpers/esm/initializerDefineProperty","@babel/runtime/helpers/esm/defineProperty","@babel/runtime/helpers/esm/applyDecoratedDescriptor","@babel/runtime/helpers/esm/initializerWarningHelper","@ember/template-factory","@ember/component","@glimmer/component","@ember/object","@glimmer/tracking","global-utils/utils/url","artdeco-modal/components/artdeco-modal","artdeco-text-input/components/artdeco-text-input","artdeco-button/components/artdeco-button","ember-cli-pemberly-i18n/helpers/t","@ember/modifier"],(function(e,t,o,i,n,r,l,s,a,d,u,c,p,m,f,g){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+var b,h,v
+e.default=(0,l.setComponentTemplate)((0,r.createTemplateFactory)({id:"v0RT6FHs",block:'[[[1,"\\n"],[1,"    "],[8,[32,0],null,[["@size","@isOpen","@hideDismiss"],["small",[30,1],true]],[["default"],[[[[1,"\\n      "],[8,[30,2,["artdeco-modal-header"]],[[24,0,"scaffold-formatted-text-editor-link-modal-header text-body-medium-bold"]],null,[["default"],[[[[1,"\\n        "],[10,"h1"],[14,1,"scaffold-formated-text-editor-link-modal-header"],[12],[1,[52,[30,0,["isUrlDefined"]],[28,[32,1],["i18n_edit_link","scaffold-formatted-text-editor/components/link-modal"],null],[28,[32,1],["i18n_add_link","scaffold-formatted-text-editor/components/link-modal"],null]]],[13],[1,"\\n      "]],[]]]]],[1,"\\n\\n      "],[8,[30,2,["artdeco-modal-content"]],null,null,[["default"],[[[[1,"\\n        "],[10,0],[14,0,"text-body-medium"],[12],[1,"\\n          "],[8,[32,2],null,[["@type","@label","@value","@onInput"],["text",[28,[32,1],["i18n_text_label","scaffold-formatted-text-editor/components/link-modal"],null],[30,3],[30,0,["setText"]]]],null],[1,"\\n          "],[10,0],[14,0,"scaffold-formatted-text-editor-link-modal-url-input"],[12],[1,"\\n            "],[8,[32,2],null,[["@type","@label","@value","@required","@onInput","@placeholder"],["text",[28,[32,1],["i18n_url_label","scaffold-formatted-text-editor/components/link-modal"],null],[30,4],true,[30,0,["setUrl"]],[28,[32,1],["i18n_paste_link","scaffold-formatted-text-editor/components/link-modal"],null]]],null],[1,"\\n          "],[13],[1,"\\n        "],[13],[1,"\\n\\n        "],[10,0],[14,0,"scaffold-formatted-text-editor-link-modal-buttons"],[12],[1,"\\n          "],[10,0],[12],[1,"\\n            "],[8,[32,3],[[4,[32,4],["click",[30,0,["deleteLink"]]],null]],[["@type","@color","@text"],["tertiary","muted",[28,[32,1],["i18n_delete_url","scaffold-formatted-text-editor/components/link-modal"],null]]],null],[1,"\\n          "],[13],[1,"\\n          "],[10,0],[14,0,"scaffold-formatted-text-editor-link-modal-buttons--right"],[12],[1,"\\n            "],[8,[32,3],[[4,[32,4],["click",[30,5]],null]],[["@type","@color","@text"],["secondary","muted",[28,[32,1],["i18n_cancel_modal","scaffold-formatted-text-editor/components/link-modal"],null]]],null],[1,"\\n            "],[8,[32,3],[[4,[32,4],["click",[30,0,["createLink"]]],null]],[["@type","@text"],["primary",[28,[32,1],["i18n_apply_url","scaffold-formatted-text-editor/components/link-modal"],null]]],null],[1,"\\n          "],[13],[1,"\\n        "],[13],[1,"\\n      "]],[]]]]],[1,"\\n\\n    "]],[2]]]]],[1,"\\n  "]],["@isOpen","modal","@text","@url","@onClose"],false,["if"]]',moduleName:"scaffold-formatted-text-editor/components/link-modal.gts",scope:()=>[c.default,f.default,p.default,m.default,g.on],isStrictMode:!0}),(b=class extends s.default{constructor(){super(...arguments);(0,t.default)(this,"text",h,this);(0,t.default)(this,"url",v,this)}get isUrlDefined(){return void 0!==this.args.url&&this.args.url.length>0}setText(e){e.target instanceof HTMLInputElement&&(this.text=e.target.value)}setUrl(e){e.target instanceof HTMLInputElement&&(this.url=e.target.value)}createLink(){(0,u.isUrl)(this.url)&&this.args.onCreateLink(this.url,this.text)}deleteLink(){this.args.onDeleteLink()}},h=(0,i.default)(b.prototype,"text",[d.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return""}}),v=(0,i.default)(b.prototype,"url",[d.tracked],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return""}}),(0,i.default)(b.prototype,"setText",[a.action],Object.getOwnPropertyDescriptor(b.prototype,"setText"),b.prototype),(0,i.default)(b.prototype,"setUrl",[a.action],Object.getOwnPropertyDescriptor(b.prototype,"setUrl"),b.prototype),(0,i.default)(b.prototype,"createLink",[a.action],Object.getOwnPropertyDescriptor(b.prototype,"createLink"),b.prototype),(0,i.default)(b.prototype,"deleteLink",[a.action],Object.getOwnPropertyDescriptor(b.prototype,"deleteLink"),b.prototype),b))}))
+define("scaffold-formatted-text-editor/components/toggle-button",["exports","@babel/runtime/helpers/esm/applyDecoratedDescriptor","@ember/template-factory","@ember/component","@ember/object","@glimmer/component","artdeco-hoverables/components/artdeco-hoverable-trigger","ember-cli-pemberly-i18n/helpers/t","@ember/modifier","hue-web-icons/components/icon"],(function(e,t,o,i,n,r,l,s,a,d){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+var u
+e.default=(0,i.setComponentTemplate)((0,o.createTemplateFactory)({id:"TBzLgcZq",block:'[[[1,"\\n"],[1,"    "],[8,[32,0],null,[["@on","@placement","@disableHoverable"],["hover","bottom",[30,1]]],[["default"],[[[[1,"\\n      "],[11,"button"],[16,"aria-describedby",[30,2,["ariaId"]]],[16,"aria-label",[52,[30,3],[28,[32,1],["i18n_toggle_on","scaffold-formatted-text-editor/components/toggle-button"],[["label"],[[30,4]]]],[28,[32,1],["i18n_toggle_off","scaffold-formatted-text-editor/components/toggle-button"],[["label"],[[30,4]]]]]],[16,0,[29,["scaffold-formatted-text-editor-icon-button\\n          ",[52,[30,3],"scaffold-formatted-text-editor-icon-button--toggled"]]]],[24,4,"button"],[16,"disabled",[30,1]],[17,5],[4,[32,2],["click",[30,0,["toggle"]]],null],[12],[1,"\\n        "],[8,[32,3],[[16,0,[29,["scaffold-formatted-text-editor-icon\\n            ",[52,[30,3],"scaffold-formatted-text-editor-icon--toggled"]]]]],[["@name"],[[30,6]]],null],[1,"\\n      "],[13],[1,"\\n\\n      "],[8,[30,2,["artdeco-hoverable-content"]],null,[["@contentClass"],["scaffold-formatted-text-editor-toggle-label text-body-xsmall"]],[["default"],[[[[1,"\\n        "],[10,1],[12],[1,[30,4]],[13],[1,"\\n      "]],[]]]]],[1,"\\n    "]],[2]]]]],[1,"\\n  "]],["@isDisabled","trigger","@isToggled","@label","&attrs","@icon"],false,["if"]]',moduleName:"scaffold-formatted-text-editor/components/toggle-button.gts",scope:()=>[l.default,s.default,a.on,d.default],isStrictMode:!0}),(u=class extends r.default{toggle(){var e,t
+null===(e=(t=this.args).onToggle)||void 0===e||e.call(t)}},(0,t.default)(u.prototype,"toggle",[n.action],Object.getOwnPropertyDescriptor(u.prototype,"toggle"),u.prototype),u))}))
+define("scaffold-formatted-text-editor/components/toolbar",["exports","@ember/template-factory","@ember/component","@glimmer/component","scaffold-formatted-text-editor/components/toggle-button","global-helpers/helpers/eq"],(function(e,t,o,i,n,r){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+class l extends i.default{get styleClasses(){const e=[]
+if(this.args.isStandalone){e.push("scaffold-formatted-text-editor-toolbar--standalone")
+this.args.isCentered&&e.push("scaffold-formatted-text-editor-toolbar--centered")}else this.args.isOnBottom?e.push("scaffold-formatted-text-editor-toolbar--is-on-bottom"):e.push("scaffold-formatted-text-editor-toolbar--is-on-top")
+return e.join(" ")}get lastItemIndex(){return this.args.buttonGroups.length-1}}e.default=l;(0,o.setComponentTemplate)((0,t.createTemplateFactory)({id:"JwKsgrjQ",block:'[[[1,"\\n    "],[10,0],[15,0,[29,["scaffold-formatted-text-editor-toolbar ",[30,0,["styleClasses"]]]]],[12],[1,"\\n"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,"        "],[10,1],[14,0,"scaffold-formatted-text-editor-button-group"],[12],[1,"\\n"],[42,[28,[31,1],[[28,[31,1],[[30,2]],null]],null],null,[[[1,"            "],[8,[32,0],null,[["@icon","@dataTestSelector","@label","@isToggled","@onToggle","@isDisabled"],[[30,4,["icon"]],[30,4,["dataTestSelector"]],[30,4,["label"]],[30,4,["isToggled"]],[30,4,["onToggle"]],[30,4,["isDisabled"]]]],null],[1,"\\n"]],[4]],null],[1,"        "],[13],[1,"\\n"],[41,[51,[28,[32,1],[[30,3],[30,0,["lastItemIndex"]]],null]],[[[1,"          "],[10,"hr"],[14,0,"scaffold-formatted-text-editor-divider"],[12],[13],[1,"\\n"]],[]],null]],[2,3]],null],[1,"    "],[13],[1,"\\n  "]],["@buttonGroups","buttonGroup","index","button"],false,["each","-track-array","unless"]]',moduleName:"scaffold-formatted-text-editor/components/toolbar.gts",scope:()=>[n.default,r.default],isStrictMode:!0}),l)}))
+define("scaffold-formatted-text-editor/helpers/load-tiptap",["exports","ember-async-data"],(function(e,t){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=function(){o||(o=new t.TrackedAsyncData(async function(){const[e,t,o,i,n,r,l,s,a,d,u,c,p,m]=await Promise.all([emberAutoImportDynamic("@tiptap/core"),emberAutoImportDynamic("@tiptap/extension-document"),emberAutoImportDynamic("@tiptap/extension-paragraph"),emberAutoImportDynamic("@tiptap/extension-text"),emberAutoImportDynamic("@tiptap/extension-placeholder"),emberAutoImportDynamic("@tiptap/extension-bold"),emberAutoImportDynamic("@tiptap/extension-italic"),emberAutoImportDynamic("@tiptap/extension-strike"),emberAutoImportDynamic("@tiptap/extension-bullet-list"),emberAutoImportDynamic("@tiptap/extension-ordered-list"),emberAutoImportDynamic("@tiptap/extension-list-item"),emberAutoImportDynamic("@tiptap/extension-link"),emberAutoImportDynamic("@tiptap/extension-focus"),emberAutoImportDynamic("@tiptap/pm/state")])
+return{Core:e,Document:t,Paragraph:o,Text:i,Placeholder:n,Bold:r,Italic:l,Strike:s,BulletList:a,OrderedList:d,ListItem:u,Link:c,Focus:p,PmState:m}}()))
+return o}
+let o}))
+define("scaffold-formatted-text-editor/modifiers/init-editor",["exports","ember-modifier","scaffold-formatted-text-editor/utils/setup-editor"],(function(e,t,o){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=void 0
+const i=(0,t.modifier)(((e,t,i)=>{let{content:n,placeholder:r,tiptap:l,didLoad:s,isFocused:a,featureCallbackMap:d,features:u,onUpdate:c}=i
+const p=(0,o.default)(e,l,d,{placeholder:r,content:n,autofocus:a},u)
+p.on("update",(e=>{let{editor:t}=e
+null==c||c(t.getJSON())}))
+s(p)
+return()=>{p.destroy()}}),{eager:!1})
+e.default=i}))
+define("scaffold-formatted-text-editor/template-registry",[],(function(){}))
+define("scaffold-formatted-text-editor/utils/convert-tiptap-to-tvm",["exports","@ember/debug","punycode"],(function(e,t,o){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.TVM_LIST_STYLE_TYPE=e.TIPTAP_NODE_TYPE=e.TIPTAP_MARKS_TO_TEXT_STYLE_TYPE_MAP=void 0
+e.default=function(e,t){function l(e,i){e.forEach((e=>{var r
+const s=e.text
+if(s){i.tvm.text+=s
+i.isListItem&&(i.listItemText+=s)}if(null!==(r=e.marks)&&void 0!==r&&r.length){const{marks:r}=e
+r.forEach((e=>{const r=e.type,l=n[r],a={detailDataUnion:{},start:i.tvmIndex,length:(0,o.ucs2decode)(s).length}
+l&&(a.detailDataUnion.style=l)
+"link"===r&&e.attrs.href&&(a.detailDataUnion.hyperlink=e.attrs.href)
+if(Object.keys(a.detailDataUnion).length>0){const e=t.buildModel("com.linkedin.voyager.dash.common.text.TextAttribute",a)
+i.tvm.attributesV2.push(e)}}))}s&&(i.tvmIndex+=(0,o.ucs2decode)(s).length)
+e.content&&l(e.content,i)}))
+return i}const s={text:"",attributesV2:[]}
+if(e.content.length>0&&(e.content[0].type===i.ORDERED_LIST||e.content[0].type===i.BULLET_LIST))return function(e,n){const s=e.content,a=s[0].type===i.ORDERED_LIST?r.ORDERED_LIST:r.BULLET_LIST
+s[0].content.forEach((e=>{const i={detailDataUnion:{style:"LIST_ITEM",listItemStyle:{type:a}},start:n.tvmIndex},r=l(e.content,{tvm:n.tvm,tvmIndex:n.tvmIndex,isListItem:!0,listItemText:""})
+i.length=(0,o.ucs2decode)(r.listItemText).length
+const s=t.buildModel("com.linkedin.voyager.dash.common.text.TextAttribute",i)
+n.tvmIndex=r.tvmIndex
+n.tvm.attributesV2.push(s)}))
+const d=t.buildModel("com.linkedin.voyager.dash.common.text.TextAttribute",{detailDataUnion:{style:"LIST",listStyle:a},start:0,length:(0,o.ucs2decode)(n.tvm.text).length})
+n.tvm.attributesV2.push(d)
+return t.buildModel("com.linkedin.voyager.dash.common.text.TextViewModel",n.tvm)}(e,{tvm:s,tvmIndex:0})
+l(e.content,{tvm:s,tvmIndex:0})
+return t.buildModel("com.linkedin.voyager.dash.common.text.TextViewModel",s)}
+const i=e.TIPTAP_NODE_TYPE=Object.freeze({PARAGRAPH:"paragraph",ORDERED_LIST:"orderedList",BULLET_LIST:"bulletList"}),n=e.TIPTAP_MARKS_TO_TEXT_STYLE_TYPE_MAP=Object.freeze({bold:"BOLD",italic:"ITALIC",strike:"STRIKETHROUGH"}),r=e.TVM_LIST_STYLE_TYPE=Object.freeze({BULLET_LIST:"SOLID_BULLET",ORDERED_LIST:"ARABIC_NUMERAL"})}))
+define("scaffold-formatted-text-editor/utils/convert-tvm-to-tiptap",["exports","text-view-model/interpreter"],(function(e,t){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.buildTraverser=l
+e.default=function(e,o){var i,n
+const r=(0,t.default)(e),s=l(o),a=r.reduce(s,[])
+return null===(i=o.nodes)||void 0===i||null===(n=i.doc)||void 0===n?void 0:n.createChecked(null,a).toJSON()}
+e.getLinkOpAttrs=r
+e.getStyleOpAttrs=n
+function o(e){return"STYLE"===e.code}function i(e){return void 0!==e}function n(e,t){return Array(e).reduce((function e(i,n){if(o(n)){var r
+n.isBold&&i.push(t.mark("bold"))
+n.isItalic&&i.push(t.mark("italic"))
+n.isStrikethrough&&i.push(t.mark("strike"))
+null!=n&&null!==(r=n.subOperations)&&void 0!==r&&r.length&&n.subOperations.map((t=>e(i,t)))}return i}),[])}function r(e,t){var o,i,n,r,l
+const s=[],a=(null==e||null===(o=e.attr)||void 0===o||null===(i=o.detailData)||void 0===i||null===(n=i.textLink)||void 0===n?void 0:n.url)||(null==e||null===(r=e.attr)||void 0===r||null===(l=r.detailData)||void 0===l?void 0:l.hyperlink)
+a&&s.push(t.mark("link",{href:a,target:"_blank",rel:"noopener nofollow"}))
+return s}function l(e){return function t(l,s){var a,d
+if(function(e){return"LIST"===e.code}(s)){const n=null==s?void 0:s.subOperations.map((i=>{if(o(i)&&i.isListItem){var n,r,l,s,a,d
+let o
+null!==(n=i.sourceText)&&void 0!==n&&n.length&&(o=e.text(i.sourceText))
+null!==(r=i.subOperations)&&void 0!==r&&r.length&&(o=i.subOperations.reduce(t,[]))
+return null===(l=e.nodes)||void 0===l||null===(s=l.listItem)||void 0===s?void 0:s.createChecked(null,null===(a=e.nodes)||void 0===a||null===(d=a.paragraph)||void 0===d?void 0:d.createChecked(null,o))}})).filter(i)
+let r
+if(s.isOrdered){var u,c
+r=null===(u=e.nodes)||void 0===u||null===(c=u.orderedList)||void 0===c?void 0:c.createChecked(null,n)}else{var p,m
+r=null===(p=e.nodes)||void 0===p||null===(m=p.bulletList)||void 0===m?void 0:m.createChecked(null,n)}r&&l.push(r)
+return l}let f
+if(o(s)){const t=n(s,e)
+f=e.text(s.sourceText,t)}if(function(e){return"LINK"===e.code}(s)){const t=r(s,e)
+f=e.text(s.sourceText,t)}if("TEXT"===s.code){var g
+null!==(g=s.sourceText)&&void 0!==g&&g.length&&(f=e.text(s.sourceText))}const b=null===(a=e.nodes)||void 0===a||null===(d=a.paragraph)||void 0===d?void 0:d.createChecked(null,f)
+b&&l.push(b)
+return l}}}))
+define("scaffold-formatted-text-editor/utils/setup-editor",["exports"],(function(e){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0})
+e.default=function(e,i,n,r,l){const{Core:s,Document:a,Paragraph:d,Text:u,Placeholder:c,Focus:p,PmState:m}=i,{content:f,placeholder:g,autofocus:b}=r,h=l?l.flat():["Bold","Italic","Strike","BulletList","OrderedList","Link"],v=h.map((e=>{var r,l,a
+const d=o(i[e],null===(r=n[e])||void 0===r?void 0:r.keyboardShortcuts,[t(s,m,null===(l=n[e])||void 0===l?void 0:l.customPluginCallback)])
+if(null!==(a=n[e])&&void 0!==a&&a.HTMLAttributes){var u,c
+return d.configure({HTMLAttributes:{class:null===(u=n[e])||void 0===u||null===(c=u.HTMLAttributes)||void 0===c?void 0:c.class}})}return d}));(h.includes("BulletList")||h.includes("OrderedList"))&&v.push(o(i.ListItem))
+return new s.Editor({element:e,autofocus:b,content:f,editorProps:{attributes:{class:"scaffold-formatted-text-editor-input"}},extensions:[a.default,d.default,u.default,p.default,c.default.configure({placeholder:g}),...v]})}
+e.setupPlugin=t
+function t(e,t,o){return new t.Plugin({key:new t.PluginKey("eventHandler"),props:{handleClick(i,n,r){r.preventDefault()
+if(r.target instanceof HTMLAnchorElement){var l
+if((null===(l=r.target)||void 0===l?void 0:l.closest("a"))&&i.state.schema.marks.link){const r=e.getMarkRange(i.state.doc.resolve(n),i.state.schema.marks.link)
+if(!r)return
+const l=i.state.tr.setSelection(new t.TextSelection(i.state.doc.resolve(r.from),i.state.doc.resolve(r.to)))
+i.dispatch(l)
+o&&o()}}}}})||[]}function o(e,t,o){if(t||o){let i={}
+t&&Object.values(t).every((e=>"function"==typeof e))&&(i={...i,addKeyboardShortcuts:()=>t})
+o&&(i={...i,addProseMirrorPlugins(){var e
+return[...(null===(e=this.parent)||void 0===e?void 0:e.call(this))||[],...o]}})
+return e.default.extend(i)}return e.default}}))
+
+//# sourceMappingURL=engine-vendor.map

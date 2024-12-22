@@ -1,0 +1,233 @@
+html.lenis, html.lenis body {
+    height: auto;
+}
+    
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+    
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+
+
+.preloaderText {
+    font-weight: 900;
+    font-style: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.heroPage {
+
+    opacity: 0;
+    img {
+        width: 70rem;
+    }
+}
+
+.mainPageBottomCustoText {
+    font-size: 25rem;
+    font-weight: 500;
+    font-family: "Sora", sans-serif;
+}
+
+.whole, .mainScreen {
+    font-family: "Quicksand", sans-serif;
+}
+
+.letter6 {
+    font-size: 15rem;
+    margin-top: 3.68rem;
+}
+
+.navBar {
+    width: 35rem;
+    a {
+        font-size: 1.3rem;
+        font-weight: 400;
+    }
+}
+
+.heroPageSideTextBtn {
+    font-family: "Sora", sans-serif;
+    margin-left: 2.28rem;
+    width: max-content;
+
+    h1 {
+        font-size: 3.5rem;
+        width: 43rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+    }
+    a {
+        font-size: 1.7rem;
+        font-weight: 400;
+    }
+}
+
+.bigWhiteDiv {
+    box-shadow: 0 -.7rem 3rem 0rem rgba(0, 0, 0, 0.387);
+    padding-bottom: 200rem;
+}
+
+.section2 {
+    text-align: left;
+    width: max-content;
+    h1 {
+        line-height: 4rem;
+        width: 50rem;
+        font-weight: 500;
+        font-size: 4rem;
+    }
+}
+
+.section1 {
+    h1 {
+        width: 20rem;
+    }
+}
+
+.pageTwoSlideshowImgs {
+    width: 100vw;
+    height: 100%;
+    overflow-x: auto;
+    gap: 2rem;
+
+    img {
+        border-radius: 1rem;
+        width: 43rem;
+        height: 32rem;
+        object-fit: cover;
+    }
+}
+
+.pageTwoSlideshowImgs::-webkit-scrollbar {
+    width: 0px;
+}
+
+.pageThreeParas {
+    font-size: 1.5rem;
+
+    p {
+        color: #9ea29f;
+        margin-bottom: 5rem;
+        margin-top: 1rem;
+    }
+}
+
+.pageThree {
+    margin-left: 45rem;
+    margin-top: 12rem;
+    margin-right: 18rem;
+    margin-bottom: 15rem;
+}
+
+.pageFour {
+    .pageFourText {
+        .pageFourMainText {
+            font-weight: 500;
+            line-height: 5rem;
+            width: 56rem;
+            font-size: 4.5rem;
+        }
+        .pageFourSideText {
+            width: 22rem;
+        }
+    }
+
+    .pageFourImgs {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+
+        img {
+            border-radius: 1rem;
+            width: 80vw;
+            height: 60vh;
+            object-fit: cover;
+            cursor: none;
+        }
+    }
+}
+
+.pageFiveHeadTexts {
+    h1 {
+        width: 50rem;
+        font-size: 4.5rem;
+        line-height: 5rem;
+    }
+}
+
+
+.pageFiveTimerBulletsSection {
+    .imgSection {
+        img {
+            width: 23rem;
+            height: 15.7rem;
+            /* object-fit: cover; */
+            border-radius: .5rem;
+            margin-top: -7rem;
+        }
+    }
+
+    .textSection {
+        margin-top: -6rem;
+        pre {
+            font-family: "Quicksand", sans-serif;
+            font-size: 2.7rem;
+            margin-bottom: 3rem;
+            margin-top: 4rem;
+            font-weight: 600;
+        }
+        div::after{
+            content: '';
+            position: absolute;
+            width: 57rem;
+            height: 1px;
+            background-color: #000;
+            transition: all 2s;
+        }
+    }
+}
+
+
+
+
+
+
+
+/* all buttons hover  effect start */
+
+/* 
+
+.heroBtn::after {
+    content: '';
+    height: 1px;
+    width: 100%;
+    background-color: #000;
+    position: absolute;
+    margin-top: 20px;
+} */
+
+
+
+
+
+/*  all buttons hover  effect end */
+
+
